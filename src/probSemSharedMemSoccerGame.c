@@ -60,8 +60,6 @@ void launch_processes(char *bin, char *prefix, int nProc, char *logFilename, int
     }
 }
 
-
-
 /**
  *  \brief Main program.
  *
@@ -194,3 +192,5 @@ int main (int argc, char *argv[])
 
     return EXIT_SUCCESS;
 }
+
+

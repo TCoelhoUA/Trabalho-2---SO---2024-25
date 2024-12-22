@@ -1,0 +1,7 @@
+Chega
+P - waiting(w)
+P - waiting(w)
+G - waiting(w)
+P - waiting(w)
+G - waiting(w) -> goalies desnecessário, só se precisa de 1 goalie e 4 players
+P - forming(f) -> último elemento para a equipa ser formada
