@@ -323,6 +323,8 @@ static void playUntilEnd (int id, int team)
         exit (EXIT_FAILURE);
     }
 
+    /* TODO: insert your code here */
+    
     if (team == 1) {
         sh->fSt.st.playerStat[id] = PLAYING_1;
     }
