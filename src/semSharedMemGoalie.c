@@ -253,7 +253,6 @@ static int goalieConstituteTeam (int id)
             exit(EXIT_FAILURE);
         }
     }
-    printf("Goalie %d formou a equipa %d\n", id, ret);
     
     /* --------------- // --------------- */
 
