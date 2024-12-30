@@ -145,7 +145,7 @@ static void arrive ()
     /* TODO: insert your code here */
 
     // Atualiza o estado do referee para "ARRIVING"
-    sh->fSt.st.refereeStat = ARRIVING;
+    sh->fSt.st.refereeStat = ARRIVINGR;
 
     // Guarda o estado do referee
     saveState(nFic,&sh->fSt);
