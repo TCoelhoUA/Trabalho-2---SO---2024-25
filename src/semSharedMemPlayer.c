@@ -256,7 +256,6 @@ static int playerConstituteTeam (int id)
             exit(EXIT_FAILURE);
         }
     }
-    printf("Player %d formou a equipa %d\n", id, ret);
 
     /* --------------- // --------------- */
 
