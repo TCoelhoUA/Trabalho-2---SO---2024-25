@@ -301,7 +301,7 @@ static void waitReferee (int id, int team)
     // Guarda o estado do Player
     saveState(nFic,&sh->fSt);
 
-    if (semUp(semgid, sh->playing) == -1) {
+    if (semUp (semgid, sh->playing) == -1) {
         perror("error on the down operation for semaphore access(PL)");
         exit(EXIT_FAILURE);
     }
