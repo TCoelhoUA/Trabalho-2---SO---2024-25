@@ -189,10 +189,9 @@ static int playerConstituteTeam (int id)
 
     /* TODO: insert your code here */
 
-    // Player chega, então temos mais um player disponível
-    // e incrementanos o número de players que já chegaram
-    sh->fSt.playersFree++;
-    sh->fSt.playersArrived++;
+    // Player chega (está disponível e já chegou)
+    sh->fSt.playersFree++;    // +1 Player disponível
+    sh->fSt.playersArrived++;    // +1 Player que chegou
 
     if (sh->fSt.playersArrived <= 8) {   // Player chegou a tempo de formar equipa "W"
         sh->fSt.st.playerStat[id] = WAITING_TEAM;   // Atualização do estado do Player
