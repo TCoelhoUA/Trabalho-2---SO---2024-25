@@ -234,7 +234,7 @@ static void startGame ()
     /* TODO: insert your code here */
 
     for (int i = 0; i < NUMPLAYERS; i++) {
-        if (semUp(semgid, sh->playersWaitReferee) == -1) { /* leave critical region */
+        if (semUp(semgid, sh->playersWaitReferee) == -1) {
             perror("error on the down operation for semaphore access (RF)");
             exit(EXIT_FAILURE);
         }
