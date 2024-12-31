@@ -186,40 +186,40 @@ static int goalieConstituteTeam (int id)
 
     /* TODO: insert your code here */
 
-    // Goalie chega, então temos mais um goalie disponível
-    // e incrementanos o número de goalies que já chegaram
-    sh->fSt.goaliesFree++;
-    sh->fSt.goaliesArrived++;
+    // Goalie chega (está disponível e já chegou)
+    sh->fSt.goaliesFree++;  // +1 Goalie disponível
+    sh->fSt.goaliesArrived++;   // +1 Goalie que chegou
 
     if (sh->fSt.goaliesArrived <= 2) {   // Goalie chegou a tempo de formar equipa "W"
-        sh->fSt.st.goalieStat[id] = WAITING_TEAM;
-        
-        if (sh->fSt.playersFree >= 4 && sh->fSt.goaliesFree >= 1) {     // Goalie consegue formar equipa "F"
-            sh->fSt.st.goalieStat[id] = FORMING_TEAM;
-            sh->fSt.goaliesFree--;
+        sh->fSt.st.goalieStat[id] = WAITING_TEAM;   // Atualização do estado do Goalie
 
-            for (int i = 0; i < NUMTEAMPLAYERS; i++) {
+        if (sh->fSt.playersFree >= 4 && sh->fSt.goaliesFree >= 1) {     // Goalie consegue formar equipa "F"
+            sh->fSt.st.goalieStat[id] = FORMING_TEAM;   // Atualização do estado do Goalie
+
+            sh->fSt.goaliesFree--;  // -1 Goalie disponível
+            sh->fSt.playersFree = sh->fSt.playersFree - 4;  // -4 Players disponíveis
+
+            // Manipulação de semáforos para 4 Players
+            for (int i=0; i<4; i++) {
                 if (semUp(semgid, sh->playersWaitTeam) == -1) {
                     perror("error on the up operation for semaphore access (GL)");
                     exit(EXIT_FAILURE);
                 }
-            }
-
-            for (int i = 0; i < NUMTEAMPLAYERS; i++) {
+                
                 if (semDown(semgid, sh->playerRegistered) == -1) {
                     perror("error on the up operation for semaphore access (GL)");
                     exit(EXIT_FAILURE);
                 }
             }
 
-            sh->fSt.playersFree = sh->fSt.playersFree - 4;
-            ret = sh->fSt.teamId++;
+            ret = sh->fSt.teamId++; // Atribuição do teamId e incremento para a equipa seguinte a ser formada
         }
     }
     else {  // Goalie chegou atrasado "L"
-        sh->fSt.st.goalieStat[id] = LATE;
+        sh->fSt.st.goalieStat[id] = LATE;   // Atualização do estado do Goalie
     }
 
+    // Guarda o estado do Goalie
     saveState(nFic,&sh->fSt);
 
     /* --------------- // --------------- */
@@ -231,7 +231,7 @@ static int goalieConstituteTeam (int id)
 
     /* TODO: insert your code here */
 
-    // Goalie conseguiu formar equipa
+    // Goalie conseguiu formar equipa "F"
     if (sh->fSt.st.goalieStat[id] == FORMING_TEAM) {
         if (semUp(semgid, sh->refereeWaitTeams) == -1) {
             perror("error on the up operation for semaphore access (GL)");
@@ -239,14 +239,14 @@ static int goalieConstituteTeam (int id)
         }
     }
 
-    // Goalie não conseguiu formar equipa, mas encontra-se em espera
+    // Goalie não conseguiu formar equipa, mas encontra-se em espera "W"
     else if (sh->fSt.st.goalieStat[id] == WAITING_TEAM) {
         if (semDown(semgid, sh->goaliesWaitTeam) == -1) {
             perror("error on the up operation for semaphore access (GL)");
             exit(EXIT_FAILURE);
         }
 
-        ret = sh->fSt.teamId;
+        ret = sh->fSt.teamId;   // Atribuição do teamId
 
         if (semUp(semgid, sh->playerRegistered) == -1) {
             perror("error on the up operation for semaphore access (GL)");
@@ -255,7 +255,7 @@ static int goalieConstituteTeam (int id)
     }
     
     /* --------------- // --------------- */
-
+    
     return ret;
 }
 
@@ -278,12 +278,13 @@ static void waitReferee (int id, int team)
     /* TODO: insert your code here */
 
     if (team == 1) {
-        sh->fSt.st.goalieStat[id] = WAITING_START_1;
+        sh->fSt.st.goalieStat[id] = WAITING_START_1;    // Atualização do estado do Goalie
     }
     else {
-        sh->fSt.st.goalieStat[id] = WAITING_START_2;
+        sh->fSt.st.goalieStat[id] = WAITING_START_2;    // Atualização do estado do Goalie
     }
 
+    // Guarda o estado do Goalie
     saveState(nFic,&sh->fSt);
 
     /* --------------- // --------------- */
@@ -322,14 +323,20 @@ static void playUntilEnd (int id, int team)
     /* TODO: insert your code here */
 
     if (team == 1) {
-        sh->fSt.st.goalieStat[id] = PLAYING_1;
+        sh->fSt.st.goalieStat[id] = PLAYING_1;  // Atualização do estado do Goalie
     }
     else {
-        sh->fSt.st.goalieStat[id] = PLAYING_2;
+        sh->fSt.st.goalieStat[id] = PLAYING_2;  // Atualização do estado do Goalie
     }
 
+    // Guarda o estado do Goalie
     saveState(nFic,&sh->fSt);
-    
+
+    if (semUp(semgid, sh->playing) == -1) {
+        perror("error on the down operation for semaphore access(PL)");
+        exit(EXIT_FAILURE);
+    }
+
     /* --------------- // --------------- */
 
     if (semUp (semgid, sh->mutex) == -1) {                                                         /* exit critical region */

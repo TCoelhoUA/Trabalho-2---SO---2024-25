@@ -311,6 +311,11 @@ static void endGame ()
             perror("error on the down operation for semaphore access (RF)");
             exit(EXIT_FAILURE);
         }
+
+        if (semDown(semgid, sh->playing) == -1) {
+            perror("error on the up operation for semaphore access (RF)");
+            exit(EXIT_FAILURE);
+        }
     }
 
     /* --------------- // --------------- */
