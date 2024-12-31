@@ -233,7 +233,7 @@ static void startGame ()
 
     /* TODO: insert your code here */
 
-    for (int i = 0; i < NUMPLAYERS; i++) {
+    for (int i = 0; i < 10; i++) {
         if (semUp(semgid, sh->playersWaitReferee) == -1) {
             perror("error on the down operation for semaphore access (RF)");
             exit(EXIT_FAILURE);
@@ -306,7 +306,7 @@ static void endGame ()
 
     /* TODO: insert your code here */
 
-    for (int i = 0; i < NUMPLAYERS; i++) {
+    for (int i = 0; i < 10; i++) {
         if (semUp(semgid, sh->playersWaitEnd) == -1) {
             perror("error on the down operation for semaphore access (RF)");
             exit(EXIT_FAILURE);
