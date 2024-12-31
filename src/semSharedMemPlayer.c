@@ -291,7 +291,7 @@ static void waitReferee (int id, int team)
 
     /* TODO: insert your code here */
 
-    if (team == 1) {
+    if (team==1) {
         sh->fSt.st.playerStat[id] = WAITING_START_1;    // Atualização do estado do Player
     }
     else {
