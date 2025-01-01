@@ -301,11 +301,6 @@ static void waitReferee (int id, int team)
     // Guarda o estado do Player
     saveState(nFic,&sh->fSt);
 
-    if (semUp(semgid, sh->playing) == -1) {
-        perror("error on the down operation for semaphore access(PL)");
-        exit(EXIT_FAILURE);
-    }
-
     /* --------------- // --------------- */
 
     if (semUp(semgid, sh->mutex) == -1) {                                                         /* exit critical region */
@@ -359,6 +354,11 @@ static void playUntilEnd (int id, int team)
 
     /* TODO: insert your code here */
 
+    if (semUp(semgid, sh->playing) == -1) {
+        perror("error on the down operation for semaphore access(PL)");
+        exit(EXIT_FAILURE);
+    }
+    
     if (semDown(semgid, sh->playersWaitEnd) == -1) {
         perror("error on the up operation for semaphore access(PL)");
         exit(EXIT_FAILURE);

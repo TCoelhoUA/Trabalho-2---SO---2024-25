@@ -342,8 +342,8 @@ static void playUntilEnd (int id, int team)
     /* TODO: insert your code here */
 
     if (semUp(semgid, sh->playing) == -1) {
-        perror("error on the down operation for semaphore access(PL)");
-        exit(EXIT_FAILURE);
+       perror("error on the down operation for semaphore access(PL)");
+       exit(EXIT_FAILURE);
     }
     
     if (semDown(semgid, sh->playersWaitEnd) == -1) {

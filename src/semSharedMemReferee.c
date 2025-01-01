@@ -238,6 +238,11 @@ static void startGame ()
             perror("error on the down operation for semaphore access (RF)");
             exit(EXIT_FAILURE);
         }
+        
+        if (semDown(semgid, sh->playing) == -1) {
+            perror("error on the up operation for semaphore access(PL)");
+            exit(EXIT_FAILURE);
+        }
     }
 
     /* --------------- // --------------- */
@@ -312,10 +317,10 @@ static void endGame ()
             exit(EXIT_FAILURE);
         }
 
-        if (semDown(semgid, sh->playing) == -1) {
-            perror("error on the up operation for semaphore access (RF)");
-            exit(EXIT_FAILURE);
-        }
+        //if (semDown(semgid, sh->playing) == -1) {
+        //    perror("error on the up operation for semaphore access (RF)");
+        //    exit(EXIT_FAILURE);
+        //}
     }
 
     /* --------------- // --------------- */
